@@ -1,0 +1,28 @@
+﻿@model EMS.Service.ViewModels.User.LoginViewModel
+@{
+    ViewData["Title"] = "Login Page";
+}
+<h1>Login Page</h1>
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email"><br>
+        <span asp-validation-for="Email"></span>
+    </div>
+    <hr>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password"><br>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <hr>
+    <div>
+        <label asp-for="RememberMe"></label>
+        <input asp-for="RememberMe">
+    </div>
+    <hr>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>

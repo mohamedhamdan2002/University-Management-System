@@ -1,0 +1,63 @@
+﻿@model EMS.Service.ViewModels.Student.StudentViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <h1 class="mt-4">Student Details</h1>
+
+    <div>
+        <h4>Student Details</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Id
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Id
+            </dd>
+            <dt class="col-sm-2">
+                FullName
+            </dt>
+            <dd class="col-sm-10">
+                @Model.FullName
+            </dd>
+            <dt class="col-sm-2">
+                NationalID
+            </dt>
+            <dd class="col-sm-10">
+                @Model.NationalID
+            </dd>
+            <dt class="col-sm-2">
+                Level
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Level
+            </dd>
+            <dt class="col-sm-2">
+                TotalMark
+            </dt>
+            <dd class="col-sm-10">
+                @Model.TotalMark
+            </dd>
+            <dt class="col-sm-2">
+                RegisteredHours
+            </dt>
+            <dd class="col-sm-10">
+                @Model.RegisteredHours
+            </dd>
+            <dt class="col-sm-2">
+                GPA
+            </dt>
+            <dd class="col-sm-10">
+                @Model.GPA
+            </dd>
+        </dl>
+    </div>
+
+    <div>
+        <a asp-action="Edit" class="btn btn-warning">Edit</a> |
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿@model EMS.Service.ViewModels.University.UniversityViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>University Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">University Details</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Id
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Id
+            </dd>
+            <dt class="col-sm-2">
+                Name
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Name
+            </dd>
+            <dt class="col-sm-2">
+                Location
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Location
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+
+
+<div class="container">
+    @if(Model.Faculties is not null)
+    {
+        <h1 class="mt-4">Faculties In @Model.Name University</h1>
+
+        <p>
+            <a asp-controller="Faculty" asp-action="Create" asp-route-univeristId="@Model.Id" class="btn btn-primary">Create New</a>
+        </p>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Faculties)
+                {
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-controller="Faculty" asp-action="Edit" asp-route-id="@item.Id" , asp-route-universityId="@Model.Id" class="btn btn-warning">Edit</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1 class="mt-4">@Model.Name University doesn't contain any Faculties</h1>
+    }
+</div>
