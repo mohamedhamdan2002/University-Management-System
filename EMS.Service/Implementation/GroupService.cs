@@ -18,12 +18,13 @@ namespace EMS.Services.Implementation
             _repository = repository;
             _shard = shard;
         }
-        public async Task<GroupViewModel> CreateGroupForFacultyAsync(Guid facultyId, GroupForCreationViewModel facultyForCreation, bool trackChanges)
+        public async Task<GroupViewModel> CreateGroupForFacultyAsync(Guid facultyId, GroupForCreationViewModel groupForCreation, bool trackChanges)
         {
             await _shard.CheckIfFacultyExists(facultyId, trackChanges);
             var groupDb = new Group
             {
-                Name = facultyForCreation.Name!,
+                Name = groupForCreation.Name!,
+                Scientific = (ScientificType)Enum.Parse(typeof(ScientificType), groupForCreation.Scientific!)
             };
             _repository.Group.CreateGroupForFaculty(facultyId, groupDb);
             await _repository.SaveAsync();
@@ -61,6 +62,7 @@ namespace EMS.Services.Implementation
             await _shard.CheckIfFacultyExists(facultyId, facultyTrackChanges);
             var groupFromDb = await _shard.GetGroupForFacultyAndCheckIfItExists(facultyId, id, groupTrackChanges);
             groupFromDb.Name = groupForUpdate.Name!;
+            groupFromDb.Scientific = (ScientificType) Enum.Parse(typeof(ScientificType), groupForUpdate.Scientific!);
             await _repository.SaveAsync();
         }
         

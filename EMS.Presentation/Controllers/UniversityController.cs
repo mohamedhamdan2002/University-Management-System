@@ -13,28 +13,28 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: UniversitiesController
+
         public async Task<IActionResult> Index()
         {
             var models = await _service.UniversityService.GetUniversitiesAsync(trackChanges: false); 
             return View(models);
         }
 
-        // GET: UniversitiesController/Details/5
+
         public async Task<IActionResult> Details(Guid id)
         {
             var model = await _service.UniversityService.GetUniversityAsync(id, trackChanges: false, new[] { "Faculties" });
             return View(model);
         }
 
-        // GET: UniversitiesController/Create
+
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UniversitiesController/Create
+
         [HttpPost]
         public async Task<ActionResult> Create(UniversityForCreationViewModel universityForCreation)
         {
@@ -54,7 +54,7 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: UniversitiesController/Edit/5
+
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -75,7 +75,7 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // POST: UniversitiesController/Edit/5
+
         [HttpPost]
         public async Task<ActionResult> Edit(Guid id, UniversityForUpdateViewModel universityForUpdate)
         {
@@ -95,7 +95,7 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: UniversitiesController/Delete/5
+
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -103,7 +103,7 @@ namespace EMS.Presentation.Controllers
             return View(model);
         }
 
-        // POST: UniversitiesController/Delete/5
+
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id, UniversityViewModel model)
         {

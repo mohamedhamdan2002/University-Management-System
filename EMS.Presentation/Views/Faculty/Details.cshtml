@@ -38,3 +38,56 @@
         <a asp-controller="Faculty" asp-action="Index" asp-route-universityId="@universityId" class="btn btn-secondary">Back to List</a>
     </div>
 </div>
+
+<div class="container">
+    @if (Model.Groups is not null)
+    {
+        <h1 class="mt-4">Groups In @Model.Name Faculty</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Scientific
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Groups)
+                {
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Scientific
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-controller="Group" asp-action="Edit" asp-route-id="@item.Id" , asp-route-facultyId="@Model.Id" class="btn btn-warning">Edit</a>
+                                <a asp-controller="Group" asp-action="Details" asp-route-id="@item.Id" asp-route-facultyId="@Model.Id" class="btn btn-info">Details</a>
+                                <a asp-controller="Group" asp-action="Delete" asp-route-id="@item.Id" asp-route-facultyId="@Model.Id" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1 class="mt-4">@Model.Name Faculty doesn't contain any Groups</h1>
+    }
+    <p>
+        <a asp-controller="Group" asp-action="Create" asp-route-facultyId="@Model.Id" class="btn btn-primary">Create New</a>
+    </p>
+</div>
