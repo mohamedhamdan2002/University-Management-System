@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var universityId = ViewBag.universityId;
 }
 
 <div class="container">
@@ -33,7 +34,7 @@
     </div>
 
     <div>
-        <a asp-action="Edit" class="btn btn-warning">Edit</a> |
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <a asp-controller="Faculty" asp-action="Edit" asp-route-id="@Model.Id" asp-route-universityId="@universityId" class="btn btn-warning">Edit</a> |
+        <a asp-controller="Faculty" asp-action="Index" asp-route-universityId="@universityId" class="btn btn-secondary">Back to List</a>
     </div>
 </div>

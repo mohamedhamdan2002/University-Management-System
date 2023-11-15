@@ -18,14 +18,16 @@ namespace EMS.Presentation.Controllers
         public async Task<IActionResult> Index(Guid universityId)
         {
             var models = await _service.FacultyService.GetFacultiesAsync(universityId, trackChanges: false);
+            ViewBag.universityId = universityId;
             return View(models);
         }
 
         // GET: FacultiesController/Details/5
-        [HttpGet("Details/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Details(Guid universityId, Guid id)
         {
             var model = await _service.FacultyService.GetFacultyAsync(universityId, id, trackChanges: false);
+            ViewBag.universityId = universityId;
             return View(model);
         }
 
@@ -33,7 +35,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public ActionResult Create(Guid universityId)
         {
-            ViewBag.university = universityId;
+            ViewBag.universityId = universityId;
             return View();
         }
 
@@ -47,7 +49,7 @@ namespace EMS.Presentation.Controllers
                 {
 
                     await _service.FacultyService.CreateFacultyForUniversityAsync(universityId, FacultyForCreation, trackChanges: false);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { universityId });
                 }
                 catch
                 {
@@ -62,7 +64,7 @@ namespace EMS.Presentation.Controllers
         public async Task<IActionResult> Edit(Guid universityId, Guid id)
         {
             var model = await _service.FacultyService.GetFacultyAsync(universityId, id, trackChanges: false);
-            ViewBag.university = universityId;
+            ViewBag.universityId = universityId;
             var modelToUpdate = new FacultyForUpdateViewModel
             {
                 Name = model.Name,
@@ -80,7 +82,7 @@ namespace EMS.Presentation.Controllers
                 if (ModelState.IsValid)
                 {
                     await _service.FacultyService.UpdateFacultyForUniversityAsync(universityId, id, FacultyForUpdate, universityTrackChanges: false, facultyTrackChanges: true);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { universityId });
                 }
                 return View();
             }
@@ -92,21 +94,22 @@ namespace EMS.Presentation.Controllers
         }
 
         // GET: FacultiesController/Delete/5
-        [HttpGet("Delete/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid universityId, Guid id)
         {
             var model = await _service.FacultyService.GetFacultyAsync(universityId, id, trackChanges: false);
+            ViewBag.universityId = universityId;
             return View(model);
         }
 
         // POST: FacultiesController/Delete/5
-        [HttpPost("[action]/{id}")]
+        [HttpPost]
         public async Task<IActionResult> Delete(Guid universityId, Guid id, FacultyViewModel model)
         {
             try
             {
                 await _service.FacultyService.DeleteFacultyForUniverstiyAsync(universityId, id, trackChanges: false);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { universityId });
             }
             catch
             {

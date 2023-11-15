@@ -2,13 +2,14 @@
 
 @{
     ViewData["Title"] = "Index";
+    var universityId = ViewBag.universityId;
 }
 
 <div class="container">
     <h1 class="mt-4">Faculty Index</h1>
 
     <p>
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
+        <a asp-controller="Faculty" asp-action="Create" asp-route-universityId="@universityId" class="btn btn-primary">Create New</a>
     </p>
 
     <table class="table table-bordered table-striped">
@@ -41,9 +42,9 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            <a asp-controller="Faculty" asp-action="Edit" asp-route-id="@item.Id" asp-route-universityId="@universityId" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Faculty" asp-action="Details" asp-route-id="@item.Id" asp-route-universityId="@universityId" class="btn btn-info">Details</a>
+                            <a asp-controller="Faculty" asp-action="Delete" asp-route-id="@item.Id" asp-route-universityId="@universityId" class="btn btn-danger">Delete</a>
                         </div>
                     </td>
                 </tr>

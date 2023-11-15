@@ -43,11 +43,6 @@
     @if(Model.Faculties is not null)
     {
         <h1 class="mt-4">Faculties In @Model.Name University</h1>
-
-        <p>
-            <a asp-controller="Faculty" asp-action="Create" asp-route-univeristId="@Model.Id" class="btn btn-primary">Create New</a>
-        </p>
-
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -79,8 +74,8 @@
                         <td>
                             <div class="btn-group">
                                 <a asp-controller="Faculty" asp-action="Edit" asp-route-id="@item.Id" , asp-route-universityId="@Model.Id" class="btn btn-warning">Edit</a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                                <a asp-controller="Faculty" asp-action="Details" asp-route-id="@item.Id" asp-route-universityId="@Model.Id" class="btn btn-info">Details</a>
+                                <a asp-controller="Faculty" asp-action="Delete" asp-route-id="@item.Id" asp-route-universityId="@Model.Id" class="btn btn-danger">Delete</a>
                             </div>
                         </td>
                     </tr>
@@ -92,4 +87,7 @@
     {
         <h1 class="mt-4">@Model.Name University doesn't contain any Faculties</h1>
     }
+    <p>
+        <a asp-controller="Faculty" asp-action="Create" asp-route-universityId="@Model.Id" class="btn btn-primary">Create New</a>
+    </p>
 </div>
