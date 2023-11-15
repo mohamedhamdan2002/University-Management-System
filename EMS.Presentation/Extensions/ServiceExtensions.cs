@@ -1,10 +1,12 @@
 ﻿
 
 using EMS.DataAccess.Data;
+using EMS.DataAccess.Entities.Models;
 using EMS.DataAccess.Repositories.Contracts;
 using EMS.DataAccess.Repositories.Implementation;
 using EMS.Services.Contracts;
 using EMS.Services.Implementation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Presentation.Extensions
@@ -21,8 +23,11 @@ namespace EMS.Presentation.Extensions
             => services.AddScoped<IRepositoryManager, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services)
             => services.AddScoped<IServiceManager, ServiceManager>();
-
-        
-
+        public static void ConfigureIdentity(this IServiceCollection services)
+            => services.AddIdentity<User, IdentityRole<Guid>>(o =>
+            {
+                o.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<AppDbContext>();
     }
 }

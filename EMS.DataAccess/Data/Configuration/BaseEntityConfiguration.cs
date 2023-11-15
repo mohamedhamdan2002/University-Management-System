@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace EMS.DataAccess.Data.Configuration
 {
-    public class BaseEntityConfiguration : IEntityTypeConfiguration<BaseEntity>
+    public partial class BaseEntityConfiguration : IEntityTypeConfiguration<BaseEntity>
     {
         public void Configure(EntityTypeBuilder<BaseEntity> builder)
         {

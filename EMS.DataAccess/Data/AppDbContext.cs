@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace EMS.DataAccess.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public DbSet<University> Universities { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
@@ -17,6 +17,7 @@ namespace EMS.DataAccess.Data
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -24,6 +25,7 @@ namespace EMS.DataAccess.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
