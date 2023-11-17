@@ -2,6 +2,7 @@
 using EMS.Services.Contracts;
 using EMS.Service.ViewModels.Department;
 using EMS.DataAccess.Entities.Models;
+using EMS.Service.ViewModels.Division;
 
 namespace EMS.Services.Implementation
 {
@@ -45,8 +46,9 @@ namespace EMS.Services.Implementation
         public async Task<DepartmentViewModel> GetDepartmentAsync(Guid groupId, Guid id, bool trackChanges, string[]? includes = null)
         {
             await _shard.CheckIfGroupExists(groupId, trackChanges);
-            var departmentFromDb = await _shard.GetDepartmentForGroupAndCheckIfItExists(groupId, id, trackChanges);
-            var departmentToReturn = new DepartmentViewModel(departmentFromDb.Id, departmentFromDb.Name);
+            var departmentFromDb = await _shard.GetDepartmentForGroupAndCheckIfItExists(groupId, id, trackChanges, includes);
+            var divisions = GetDivisionsForDepartmentIfItExist(departmentFromDb);
+            var departmentToReturn = new DepartmentViewModel(departmentFromDb.Id, departmentFromDb.Name, divisions);
             return departmentToReturn;
         }
 
@@ -56,6 +58,13 @@ namespace EMS.Services.Implementation
             var departmentFromDb = await _shard.GetDepartmentForGroupAndCheckIfItExists(groupId, id, departmentTrackChanges);
             departmentFromDb.Name = departmentForUpdate.Name!;
             await _repository.SaveAsync();
+        }
+        private List<DivisionViewModel>? GetDivisionsForDepartmentIfItExist(Department department)
+        {
+            List<DivisionViewModel>? divisions = null;
+            if (department.DepartmentDivisions is not null && department.DepartmentDivisions.Any())
+                divisions = department!.DepartmentDivisions!.Select(d => new DivisionViewModel(d.Division!.Id, d.Division.Name)).ToList();
+            return divisions;
         }
     }
 }

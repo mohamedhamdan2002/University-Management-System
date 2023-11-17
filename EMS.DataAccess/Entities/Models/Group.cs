@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMS.DataAccess.Entities.Models
 {
-    public class Group
+    public class Group : IStudents
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

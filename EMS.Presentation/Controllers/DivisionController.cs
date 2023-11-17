@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.Presentation.Controllers
 {
-    [Route("Faculties/{departmentId:guid}/Divisions")]
     public class DivisionController : Controller
     {
         private readonly IServiceManager _service;
@@ -12,31 +11,34 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: DivisionsController
+
         [HttpGet]
         public async Task<IActionResult> Index(Guid departmentId)
         {
             var models = await _service.DivisionService.GetDivisionsAsync(departmentId, trackChanges: false);
+            ViewBag.departmentId = departmentId;
             return View(models);
         }
 
-        // GET: DivisionsController/Details/5
-        [HttpGet("Details/{id}")]
+
+        [HttpGet]
         public async Task<IActionResult> Details(Guid departmentId, Guid id)
         {
             var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false);
+            ViewBag.departmentId = departmentId;
             return View(model);
         }
 
-        // GET: DivisionsController/Create
-        [HttpGet("[action]")]
+
+        [HttpGet]
         public ActionResult Create(Guid departmentId)
         {
+            ViewBag.departmentId = departmentId;
             return View();
         }
 
-        // POST: DivisionsController/Create
-        [HttpPost("[action]")]
+
+        [HttpPost]
         public async Task<ActionResult> Create(Guid departmentId, DivisionForCreationViewModel divisionForCreation)
         {
             if (ModelState.IsValid)
@@ -45,7 +47,7 @@ namespace EMS.Presentation.Controllers
                 {
 
                     await _service.DivisionService.CreateDivisionForDepartmentAsync(departmentId, divisionForCreation, trackChanges: false);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { departmentId });
                 }
                 catch
                 {
@@ -55,11 +57,12 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: DivisionsController/Edit/5
-        [HttpGet("Edit/{id}")]
+
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid departmentId, Guid id)
         {
             var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false);
+            ViewBag.departmentId = departmentId;
             var modelToUpdate = new DivisionForUpdateViewModel
             {
                 Name = model.Name,
@@ -67,8 +70,8 @@ namespace EMS.Presentation.Controllers
             return View(modelToUpdate);
         }
 
-        // POST: DivisionsController/Edit/5
-        [HttpPost("[action]/{id}")]
+
+        [HttpPost]
         public async Task<ActionResult> Edit(Guid departmentId, Guid id, DivisionForUpdateViewModel divisionForUpdate)
         {
             try
@@ -76,7 +79,7 @@ namespace EMS.Presentation.Controllers
                 if (ModelState.IsValid)
                 {
                     await _service.DivisionService.UpdateDivisionForDepartmentAsync(departmentId, id, divisionForUpdate, departmentTrackChanges: false, divisionTrackChanges: true);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { departmentId });
                 }
                 return View();
             }
@@ -87,22 +90,23 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: DivisionsController/Delete/5
-        [HttpGet("Delete/{id}")]
+
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid departmentId, Guid id)
         {
             var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false);
+            ViewBag.departmentId = departmentId;
             return View(model);
         }
 
-        // POST: DivisionsController/Delete/5
-        [HttpPost("[action]/{id}")]
+
+        [HttpPost]
         public async Task<IActionResult> Delete(Guid departmentId, Guid id, DivisionViewModel model)
         {
             try
             {
                 await _service.DivisionService.DeleteDivisionForDepartmentAsync(departmentId, id, trackChanges: false);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { departmentId });
             }
             catch
             {

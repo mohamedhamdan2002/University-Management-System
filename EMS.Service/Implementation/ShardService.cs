@@ -1,6 +1,8 @@
 ﻿
 using EMS.DataAccess.Entities.Models;
 using EMS.DataAccess.Repositories.Contracts;
+using EMS.Service.ViewModels.Course;
+using EMS.Service.ViewModels.Student;
 
 namespace EMS.Services.Implementation
 {
@@ -107,6 +109,21 @@ namespace EMS.Services.Implementation
             var courseDb = await _repository.Course.GetCourseAsync(id, trackChanges);
             if (courseDb is null)
                 throw new Exception();
+        }
+
+        public List<StudentViewModel>? GetStudentsIfItExist(IStudents entity)
+        {
+            List<StudentViewModel>? students = null;
+            if (entity.Students is not null && entity.Students.Any())
+                students = entity!.Students!.Select(s => new StudentViewModel(s.Id, s.FullName, s.NationalID, s.Level, s.TotalMark, s.RegisteredHours, s.GPA)).ToList();
+            return students;
+        }
+        public List<CourseViewModel>? GetCourseIfItExist(ICourses entity)
+        {
+            List<CourseViewModel>? courses = null;
+            if (entity.Courses is not null && entity.Courses.Any())
+                courses = entity!.Courses!.Select(c => new CourseViewModel(c.Id, c.Name, c.Code, c.Description, c.Semester.ToString(), c.Credits)).ToList();
+            return courses;
         }
     }
 }

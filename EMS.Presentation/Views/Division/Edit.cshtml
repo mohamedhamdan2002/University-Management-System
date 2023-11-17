@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var departmentId = ViewBag.departmentId;
 }
 
 <h1>Edit</h1>
@@ -18,14 +19,14 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" asp-route-departmentId="@departmentId" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Division" asp-action="Index" asp-route-departmentId="@departmentId">Back to List</a>
 </div>
 
 @section Scripts {

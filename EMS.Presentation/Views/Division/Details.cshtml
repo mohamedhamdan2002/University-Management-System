@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var departmentId = ViewBag.departmentId;
 }
 
 <h1>Details</h1>
@@ -18,6 +19,6 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary" href="@Url.Action("Edit", new { id = Model.Id })">Edit</a> |
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-controller="Division" asp-action="Edit" asp-route-id="@Model.Id" asp-route-departmentId="@departmentId" class="btn btn-primary">Edit</a> |
+    <a asp-controller="Division" asp-action="Index" asp-route-departmentId="@departmentId" class="btn btn-secondary">Back to List</a>
 </div>

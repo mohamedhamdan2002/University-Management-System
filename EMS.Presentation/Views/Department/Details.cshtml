@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var groupId = ViewBag.groupId;
 }
 
 <div class="container">
@@ -18,7 +19,54 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <a asp-controller="Department" asp-action="Edit" asp-route-id="@Model.Id" asp-route-groupId="@groupId" class="btn btn-primary">Edit</a>
+        <a asp-controller="Department" asp-action="Index" asp-route-groupId="@groupId" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div>
+        @if (Model.Divisions is not null)
+        {
+            <h1 class="mt-4">Divisions In @Model.Name Department</h1>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Divisions)
+                    {
+                        <tr>
+                            <td>
+                                @item.Id
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-controller="Division" asp-action="Edit" asp-route-id="@item.Id" , asp-route-departmentId="@Model.Id" class="btn btn-warning">Edit</a>
+                                    <a asp-controller="Division" asp-action="Details" asp-route-id="@item.Id" asp-route-departmentId="@Model.Id" class="btn btn-info">Details</a>
+                                    <a asp-controller="Division" asp-action="Delete" asp-route-id="@item.Id" asp-route-departmentId="@Model.Id" class="btn btn-danger">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h1 class="mt-4">@Model.Name Department doesn't contain any Divisions</h1>
+        }
+        <p>
+            <a asp-controller="Division" asp-action="Create" asp-route-departmentId="@Model.Id" class="btn btn-primary">Create New</a>
+        </p>
     </div>
 </div>

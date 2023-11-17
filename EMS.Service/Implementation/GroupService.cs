@@ -51,7 +51,7 @@ namespace EMS.Services.Implementation
         {
             await _shard.CheckIfFacultyExists(facultyId, trackChanges);
             var groupFromDb = await _shard.GetGroupForFacultyAndCheckIfItExists(facultyId, id, trackChanges, includes);
-            var students = GetStudentsForGroupIfItExist(groupFromDb);
+            var students = _shard.GetStudentsIfItExist(groupFromDb);
             var departments = GetDepartmentsForGroupIfItExist(groupFromDb);
             var groupToReturn = new GroupViewModel(groupFromDb.Id, groupFromDb.Name, groupFromDb.Scientific.ToString(), departments, students);
             return groupToReturn;

@@ -1,6 +1,8 @@
 ﻿using EMS.DataAccess.Entities.Models;
 using EMS.DataAccess.Repositories.Contracts;
+using EMS.Service.ViewModels.Course;
 using EMS.Service.ViewModels.Division;
+using EMS.Service.ViewModels.Student;
 using EMS.Services.Contracts;
 namespace EMS.Services.Implementation
 {
@@ -37,8 +39,10 @@ namespace EMS.Services.Implementation
         public async Task<DivisionViewModel> GetDivisionAsync(Guid departmentId, Guid id, bool trackChanges, string[]? includes = null)
         {
             await _shardService.CheckIfDepartmentExists(departmentId, trackChanges);
-            var divisionFromDb = await _shardService.GetDivisionAndCheckIfItExists(departmentId, id, trackChanges);
-            var divisionToReturn = new DivisionViewModel(divisionFromDb.Id, divisionFromDb.Name);
+            var divisionFromDb = await _shardService.GetDivisionAndCheckIfItExists(departmentId, id, trackChanges, includes);
+            var students = _shardService.GetStudentsIfItExist(divisionFromDb);
+            var courses = _shardService.GetCourseIfItExist(divisionFromDb);
+            var divisionToReturn = new DivisionViewModel(divisionFromDb.Id, divisionFromDb.Name, courses, students);
             return divisionToReturn;
         }
 
