@@ -2,6 +2,8 @@
 using EMS.Service.ViewModels.Department;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
@@ -25,7 +27,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid groupId, Guid id)
         {
-            var model = await _service.DepartmentService.GetDepartmentAsync(groupId, id, trackChanges: false, new[] { "DepartmentDivisions.Division" });
+            var model = await _service.DepartmentService.GetDepartmentAsync(groupId, id, trackChanges: false, new[] { NavigationProperties.DepartmentDivisions_Division });
             ViewBag.groupId = groupId;
             return View(model);
         }

@@ -2,6 +2,8 @@
 using EMS.Service.ViewModels.Course;
 using Microsoft.AspNetCore.Mvc;
 using EMS.DataAccess.Entities.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
@@ -24,7 +26,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid divisionId, Guid id)
         {
-            var model = await _service.CourseService.GetCourseAsync(divisionId, id, trackChanges: false, new[] { "Enrollments.Student" });
+            var model = await _service.CourseService.GetCourseAsync(divisionId, id, trackChanges: false, new[] { NavigationProperties.Enrollments_Student });
             ViewBag.divisionId = divisionId;
             return View(model);
         }

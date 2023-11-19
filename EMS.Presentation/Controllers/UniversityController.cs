@@ -3,6 +3,7 @@ using EMS.Service.ViewModels.University;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
@@ -23,7 +24,7 @@ namespace EMS.Presentation.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-            var model = await _service.UniversityService.GetUniversityAsync(id, trackChanges: false, new[] { "Faculties" });
+            var model = await _service.UniversityService.GetUniversityAsync(id, trackChanges: false, new[] { NavigationProperties.Faculties });
             return View(model);
         }
 

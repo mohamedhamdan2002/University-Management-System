@@ -1,6 +1,7 @@
 ﻿using EMS.Services.Contracts;
 using EMS.Service.ViewModels.Doctor;
 using Microsoft.AspNetCore.Mvc;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
@@ -21,7 +22,7 @@ namespace EMS.Presentation.Controllers
         
         public async Task<IActionResult> Details(Guid id)
         {
-            var model = await _service.DoctorService.GetDoctorAsync(id, trackChanges: false, new[] { "Courses" });
+            var model = await _service.DoctorService.GetDoctorAsync(id, trackChanges: false, new[] { NavigationProperties.Courses });
             return View(model);
         }
 

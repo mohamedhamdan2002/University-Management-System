@@ -2,6 +2,7 @@
 using EMS.Service.ViewModels.Group;
 using Microsoft.AspNetCore.Mvc;
 using EMS.DataAccess.Entities.Models;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
@@ -25,7 +26,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid facultyId, Guid id)
         {
-            var model = await _service.GroupService.GetGroupAsync(facultyId, id, trackChanges: false, new[] { "Departments", "Students" });
+            var model = await _service.GroupService.GetGroupAsync(facultyId, id, trackChanges: false, new[] { NavigationProperties.Departments, NavigationProperties.Students });
             ViewBag.facultyId = facultyId;
             return View(model);
         }

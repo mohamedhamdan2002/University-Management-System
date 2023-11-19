@@ -1,6 +1,7 @@
 ﻿using EMS.Services.Contracts;
 using EMS.Service.ViewModels.Division;
 using Microsoft.AspNetCore.Mvc;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
@@ -24,7 +25,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid departmentId, Guid id)
         {
-            var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false, new[] { "Courses", "Students" });
+            var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false, new[] { NavigationProperties.Courses, NavigationProperties.Students });
             ViewBag.departmentId = departmentId;
             return View(model);
         }

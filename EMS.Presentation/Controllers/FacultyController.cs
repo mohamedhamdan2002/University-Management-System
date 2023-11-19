@@ -2,10 +2,10 @@
 using EMS.Service.ViewModels.Faculty;
 using Microsoft.AspNetCore.Mvc;
 using EMS.DataAccess.Entities.Models;
+using EMS.Presentation.Utilities;
 
 namespace EMS.Presentation.Controllers
 {
-    //[Route("Universities/{universityId:guid}/Faculties")]
     public class FacultyController : Controller
     {
         private readonly IServiceManager _service;
@@ -13,7 +13,7 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: FacultiesController
+     
         [HttpGet]
         public async Task<IActionResult> Index(Guid universityId)
         {
@@ -22,16 +22,16 @@ namespace EMS.Presentation.Controllers
             return View(models);
         }
 
-        // GET: FacultiesController/Details/5
+
         [HttpGet]
         public async Task<IActionResult> Details(Guid universityId, Guid id)
         {
-            var model = await _service.FacultyService.GetFacultyAsync(universityId, id, trackChanges: false, new[] { "Groups" });
+            var model = await _service.FacultyService.GetFacultyAsync(universityId, id, trackChanges: false, new[] { NavigationProperties.Groups });
             ViewBag.universityId = universityId;
             return View(model);
         }
 
-        // GET: FacultiesController/Create
+     
         [HttpGet]
         public ActionResult Create(Guid universityId)
         {
@@ -39,7 +39,7 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // POST: FacultiesController/Create
+        
         [HttpPost]
         public async Task<ActionResult> Create(Guid universityId, FacultyForCreationViewModel FacultyForCreation)
         {
@@ -59,7 +59,7 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: FacultiesController/Edit/5
+
         [HttpGet]
         public async Task<IActionResult> Edit(Guid universityId, Guid id)
         {
@@ -73,7 +73,7 @@ namespace EMS.Presentation.Controllers
             return View(modelToUpdate);
         }
 
-        // POST: FacultiesController/Edit/5
+        
         [HttpPost]
         public async Task<ActionResult> Edit(Guid universityId, Guid id, FacultyForUpdateViewModel FacultyForUpdate)
         {
@@ -93,7 +93,7 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: FacultiesController/Delete/5
+       
         [HttpGet]
         public async Task<IActionResult> Delete(Guid universityId, Guid id)
         {
@@ -102,7 +102,7 @@ namespace EMS.Presentation.Controllers
             return View(model);
         }
 
-        // POST: FacultiesController/Delete/5
+   
         [HttpPost]
         public async Task<IActionResult> Delete(Guid universityId, Guid id, FacultyViewModel model)
         {
