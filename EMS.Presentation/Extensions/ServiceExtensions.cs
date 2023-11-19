@@ -28,6 +28,7 @@ namespace EMS.Presentation.Extensions
             {
                 o.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<AppDbContext>();
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddRoleManager<RoleManager<IdentityRole<Guid>>>();
     }
 }

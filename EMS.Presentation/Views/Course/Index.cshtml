@@ -2,12 +2,14 @@
 
 @{
     ViewData["Title"] = "Index";
+    var divisionId = ViewBag.divisionId;
+
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Course" asp-action="Create" asp-route-divisionId="@divisionId">Create New</a>
 </p>
 <table class="table table-bordered">
     <thead>
@@ -32,9 +34,9 @@
                 <td>@item.Semester</td>
                 <td>@item.Credits</td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-primary" asp-controller="Course" asp-action="Edit" asp-route-id="@item.Id" asp-route-divisionId="@divisionId">Edit</a>
+                    <a class="btn btn-info" asp-controller="Course" asp-action="Details" asp-route-id="@item.Id" asp-route-divisionId="@divisionId">Details</a>
+                    <a class="btn btn-danger" asp-controller="Course" asp-action="Delete" asp-route-id="@item.Id" asp-route-divisionId="@divisionId">Delete</a>
                 </td>
             </tr>
         }

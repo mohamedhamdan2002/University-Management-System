@@ -22,3 +22,49 @@
     <a asp-controller="Division" asp-action="Edit" asp-route-id="@Model.Id" asp-route-departmentId="@departmentId" class="btn btn-primary">Edit</a> |
     <a asp-controller="Division" asp-action="Index" asp-route-departmentId="@departmentId" class="btn btn-secondary">Back to List</a>
 </div>
+
+<div>
+    @if (Model.Courses is not null)
+    {
+        <h1 class="mt-4">Courses In @Model.Name Division</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Semester</th>
+                    <th>Credits</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Courses)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Code</td>
+                        <td>@item.Description</td>
+                        <td>@item.Semester</td>
+                        <td>@item.Credits</td>
+                        <td>
+                            <a asp-controller="Course" asp-action="Edit" asp-route-id="@item.Id" asp-route-divisionId="@Model.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Course" asp-action="Details" asp-route-id="@item.Id" asp-route-divisionId="@Model.Id" class="btn btn-info">Details</a>
+                            <a asp-controller="Course" asp-action="Delete" asp-route-id="@item.Id" asp-route-divisionId="@Model.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1 class="mt-4">@Model.Name Division doesn't contain any Courses</h1>
+    }
+    <p>
+        <a asp-controller="Course" asp-action="Create" asp-route-divisionId="@Model.Id" class="btn btn-primary">Create New</a>
+    </p>
+</div>
+

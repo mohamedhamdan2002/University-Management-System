@@ -1,4 +1,5 @@
-﻿using EMS.DataAccess.Entities.Models;
+﻿using EMS.DataAccess.Entities.Exceptions;
+using EMS.DataAccess.Entities.Models;
 using EMS.Service.Interfaces;
 using EMS.Service.ViewModels.Role;
 using EMS.Service.ViewModels.User;
@@ -48,7 +49,7 @@ namespace EMS.Service.Implementation
         public async Task<RoleFroUpdateViewModel> GetRoleForUpdateAsync(Guid roleId)
         {
             var roleFromDb = await GetRoleAndCheckIfItExist(roleId);
-            var roleUsers = await _userManger.GetUsersInRoleAsync(roleId.ToString());
+            var roleUsers = await _userManger.GetUsersInRoleAsync(roleFromDb.Name!);
             var roleToReturn = new RoleFroUpdateViewModel
             {
                 id = roleFromDb.Id,
@@ -73,7 +74,12 @@ namespace EMS.Service.Implementation
         }
         public async Task<bool> LogInAsync(LoginViewModel userForAuth)
         {
-            var result = await _signInManger.PasswordSignInAsync(userForAuth.Email, userForAuth.Password, userForAuth.RememberMe, false);
+            var user = await _userManger.FindByEmailAsync(userForAuth.Email!);
+            if(user == null)
+            {
+                throw new InvalidOperationException();
+            }
+            var result = await _signInManger.PasswordSignInAsync(user, userForAuth.Password, userForAuth.RememberMe, false);
             if(result.Succeeded)
                 return true;
             return false;
@@ -125,14 +131,14 @@ namespace EMS.Service.Implementation
         {
             var roleFromDb = await _roleManger.FindByIdAsync(roleId.ToString());
             if (roleFromDb is null)
-                throw new Exception();
+                throw new NotFoundException($"the Role With Id : {roleId} doesn't exist");
             return roleFromDb;
         }
         private async Task<User> GetUserAndCheckIfItExist(Guid userId)
         {
             var userFromDb = await _userManger.FindByIdAsync(userId.ToString());
             if (userFromDb is null)
-                throw new Exception();
+                throw new NotFoundException($"the User With Id : {userId} doesn't exist");
             return userFromDb;
         }
 
@@ -162,7 +168,7 @@ namespace EMS.Service.Implementation
         {
             var roleFromDb = await GetRoleAndCheckIfItExist(roleId);
             List<RoleUserViewModel> roleUsers = new();
-            foreach (var user in _userManger.Users)
+            foreach (var user in await _userManger.Users.ToListAsync())
             {
                 var roleUser = new RoleUserViewModel
                 {
@@ -190,7 +196,7 @@ namespace EMS.Service.Implementation
         {
             var userFromDb = await GetUserAndCheckIfItExist(userId);
             List<UserRoleViewModel> userRoles = new();
-            foreach (var role in _roleManger.Roles)
+            foreach (var role in await _roleManger.Roles.ToListAsync())
             {
                 var userRole = new UserRoleViewModel
                 {

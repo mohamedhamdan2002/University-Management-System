@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.Presentation.Controllers
 {
-    [Route("Faculties/{groupId:guid}/Students")]
     public class StudentController : Controller
     {
         private readonly IServiceManager _service;
@@ -12,7 +11,7 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: StudentsController
+
         [HttpGet]
         public async Task<IActionResult> Index(Guid groupId)
         {
@@ -20,23 +19,20 @@ namespace EMS.Presentation.Controllers
             return View(models);
         }
 
-        // GET: StudentsController/Details/5
-        [HttpGet("Details/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Details(Guid groupId, Guid id)
         {
             var model = await _service.StudentService.GetStudentAsync(groupId, id, trackChanges: false);
             return View(model);
         }
 
-        // GET: StudentsController/Create
-        [HttpGet("[action]")]
+        [HttpGet]
         public ActionResult Create(Guid groupId)
         {
             return View();
         }
 
-        // POST: StudentsController/Create
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<ActionResult> Create(Guid groupId, StudentForCreationViewModel studentForCreation)
         {
             if (ModelState.IsValid)
@@ -55,8 +51,7 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: StudentsController/Edit/5
-        [HttpGet("Edit/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid groupId, Guid id)
         {
             var model = await _service.StudentService.GetStudentAsync(groupId, id, trackChanges: false);
@@ -71,8 +66,7 @@ namespace EMS.Presentation.Controllers
             return View(modelToUpdate);
         }
 
-        // POST: StudentsController/Edit/5
-        [HttpPost("[action]/{id}")]
+        [HttpPost]
         public async Task<ActionResult> Edit(Guid groupId, Guid id, StudentForUpdateViewModel studentForUpdate)
         {
             try
@@ -91,16 +85,14 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: StudentsController/Delete/5
-        [HttpGet("Delete/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid groupId, Guid id)
         {
             var model = await _service.StudentService.GetStudentAsync(groupId, id, trackChanges: false);
             return View(model);
         }
 
-        // POST: StudentsController/Delete/5
-        [HttpPost("[action]/{id}")]
+        [HttpPost]
         public async Task<IActionResult> Delete(Guid groupId, Guid id, StudentViewModel model)
         {
             try

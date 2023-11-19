@@ -11,28 +11,28 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: DoctorsController
+     
         public async Task<IActionResult> Index()
         {
             var models = await _service.DoctorService.GetDoctorsAsync(trackChanges: false);
             return View(models);
         }
 
-        // GET: DoctorsController/Details/5
+        
         public async Task<IActionResult> Details(Guid id)
         {
-            var model = await _service.DoctorService.GetDoctorAsync(id, trackChanges: false);
+            var model = await _service.DoctorService.GetDoctorAsync(id, trackChanges: false, new[] { "Courses" });
             return View(model);
         }
 
-        // GET: DoctorsController/Create
+        
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: DoctorsController/Create
+
         [HttpPost]
         public async Task<ActionResult> Create(DoctorForCreationViewModel doctorForCreation)
         {
@@ -52,7 +52,6 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: DoctorsController/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -66,7 +65,7 @@ namespace EMS.Presentation.Controllers
             return View(modelToUpdate);
         }
 
-        // POST: DoctorsController/Edit/5
+
         [HttpPost]
         public async Task<ActionResult> Edit(Guid id, DoctorForUpdateViewModel doctorForUpdate)
         {
@@ -86,7 +85,6 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: DoctorsController/Delete/5
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -94,7 +92,7 @@ namespace EMS.Presentation.Controllers
             return View(model);
         }
 
-        // POST: DoctorsController/Delete/5
+
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id, DoctorViewModel model)
         {

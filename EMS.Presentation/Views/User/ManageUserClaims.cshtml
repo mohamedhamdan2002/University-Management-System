@@ -1,0 +1,23 @@
+﻿@model UserClaimsViewModel
+@{
+    ViewData["Title"] = "Manage User Claims";
+}
+
+<h1>Manage User Claims</h1>
+<form method="post">
+    @for (int i = 0; i < Model.Claims.Count; i++)
+    {
+        <div>
+            <input asp-for="@Model.Claims[i].ClaimType" hidden />
+            <input asp-for="@Model.Claims[i].IsSelected">
+            <label asp-for="@Model.Claims[i].IsSelected">
+                @Model.Claims[i].ClaimType
+            </label>
+        </div>
+    }
+    <div asp-validation-summary="All"></div>
+    <div>
+        <button type="submit">Update</button>
+        <a asp-controller="User" asp-action="Edit" asp-route-id="@Model.UserId">Cancel</a>
+    </div>
+</form>

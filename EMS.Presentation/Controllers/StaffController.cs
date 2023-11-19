@@ -11,28 +11,28 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: StaffsController
+
         public async Task<IActionResult> Index()
         {
             var models = await _service.StaffService.GetStaffsAsync(trackChanges: false);
             return View(models);
         }
 
-        // GET: StaffsController/Details/5
+
         public async Task<IActionResult> Details(Guid id)
         {
             var model = await _service.StaffService.GetStaffAsync(id, trackChanges: false);
             return View(model);
         }
 
-        // GET: StaffsController/Create
+
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: StaffsController/Create
+
         [HttpPost]
         public async Task<ActionResult> Create(StaffForCreationViewModel StaffForCreation)
         {
@@ -52,7 +52,7 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: StaffsController/Edit/5
+   
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -66,7 +66,6 @@ namespace EMS.Presentation.Controllers
             return View(modelToUpdate);
         }
 
-        // POST: StaffsController/Edit/5
         [HttpPost]
         public async Task<ActionResult> Edit(Guid id, StaffForUpdateViewModel staffForUpdate)
         {
@@ -86,7 +85,7 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: StaffsController/Delete/5
+        
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -94,7 +93,7 @@ namespace EMS.Presentation.Controllers
             return View(model);
         }
 
-        // POST: StaffsController/Delete/5
+        
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id, StaffViewModel model)
         {

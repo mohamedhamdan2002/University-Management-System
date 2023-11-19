@@ -1,0 +1,46 @@
+﻿@model RoleFroUpdateViewModel
+@{
+    ViewData["Title"] = "Eidt Role Page";
+}
+
+<h1>Edit Role</h1>
+<form method="post">
+    <hr>
+    <div>
+        <input asp-for="id" type="hidden">
+    </div>
+    <hr>
+    <div>
+        <label asp-for="RoleName"></label>
+        <input asp-for="RoleName">
+        <span asp-validation-for="RoleName"></span>
+    </div>
+    <hr>
+    <div asp-validation-summary="All"></div>
+    <div>
+        <button type="submit">Update</button>
+        <a asp-action="Index" asp-controller="Role">Cancel</a>
+    </div>
+    <hr>
+    <h2>Users In This Role</h2>
+    @if (Model.Users is not null && Model.Users.Any())
+    {
+        <ul>
+            @foreach (var user in Model.Users)
+            {
+                <li>
+                    UserName: @user
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div>
+            None at the moment
+        </div>
+    }
+    <div>
+        <a asp-action="ManageRoleUsers" asp-controller="Role" asp-route-roleId="@Model.id">Add or Remove users</a>
+    </div>
+</form>

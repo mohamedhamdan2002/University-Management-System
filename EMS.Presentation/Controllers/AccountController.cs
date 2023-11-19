@@ -25,7 +25,7 @@ namespace EMS.Presentation.Controllers
             {
                 var result = await _service.AuthService.RegisterAsync(model);
                 if (result.Succeeded)
-                    return RedirectToAction("ListUsers", "Administration");
+                    return RedirectToAction(nameof(Index), nameof(User));
 
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);

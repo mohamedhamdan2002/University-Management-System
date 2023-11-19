@@ -1,6 +1,7 @@
 ﻿using EMS.DataAccess.Entities.Models;
 using EMS.DataAccess.Repositories.Contracts;
 using EMS.Service.ViewModels.Course;
+using EMS.Service.ViewModels.Student;
 using EMS.Services.Contracts;
 
 
@@ -30,7 +31,7 @@ namespace EMS.Services.Implementation
             };
             _repository.Course.CreateCourseForDivision(divisionId, courseDb);
             await _repository.SaveAsync();
-            var courseToReturn = new CourseViewModel(courseDb.Id, courseDb.Name!, courseDb.Code, courseDb.Description, courseDb.Semester.ToString(), courseDb.Credits);
+            var courseToReturn = new CourseViewModel(divisionId, courseDb.Id, courseDb.Name!, courseDb.Code, courseDb.Description, courseDb.Semester.ToString(), courseDb.Credits);
             return courseToReturn;
         }
 
@@ -46,7 +47,8 @@ namespace EMS.Services.Implementation
         {
             await _shardService.CheckIfDivisionExists(divisionId, trackChanges);
             var courseFromDb = await _shardService.GetCourseAndCheckIfItExists(divisionId, id, trackChanges);
-            var courseToReturn = new CourseViewModel(courseFromDb.Id, courseFromDb.Name!, courseFromDb.Code, courseFromDb.Description, courseFromDb.Semester.ToString(), courseFromDb.Credits);
+            var students = GetStudentsFromEnrollmentsIfItExist(courseFromDb);
+            var courseToReturn = new CourseViewModel(divisionId, courseFromDb.Id, courseFromDb.Name!, courseFromDb.Code, courseFromDb.Description, courseFromDb.Semester.ToString(), courseFromDb.Credits, students);
             return courseToReturn;
         }
 
@@ -54,7 +56,7 @@ namespace EMS.Services.Implementation
         {
             await _shardService.CheckIfDivisionExists(divisionId, trackChanges);
             var courses = await _repository.Course.GetCoursesAsync(divisionId, trackChanges);
-            var coursesToReturn = courses.Select(c => new CourseViewModel(c.Id, c.Name!, c.Code, c.Description, c.Semester.ToString(), c.Credits));
+            var coursesToReturn = courses.Select(c => new CourseViewModel(divisionId, c.Id, c.Name!, c.Code, c.Description, c.Semester.ToString(), c.Credits));
             return coursesToReturn;
         }
 
@@ -67,6 +69,13 @@ namespace EMS.Services.Implementation
             courseFromDb.Description = course.Description!;
             courseFromDb.Semester = (course?.Semester?.ToLower() == "first") ? SemesterType.First : (course?.Semester?.ToLower() == "second") ? SemesterType.Second : SemesterType.Summery;
             await _repository.SaveAsync();
+        }
+        private List<StudentViewModel>? GetStudentsFromEnrollmentsIfItExist(Course course)
+        {
+            List<StudentViewModel>? students = null;
+            if(course.Enrollments is not null &&  course.Enrollments.Any())
+                students = course.Enrollments.Select(s => new StudentViewModel(s.Student!.Id, s.Student.FullName, s.Student.NationalID, s.Student.Level, s.Student.TotalMark, s.Student.RegisteredHours, s.Student.GPA)).ToList();
+            return students;
         }
     }
 }

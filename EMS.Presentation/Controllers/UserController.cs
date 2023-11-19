@@ -17,7 +17,7 @@ namespace EMS.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Index()
         {
             var users = await _service.AuthService.GetUsersAsync();
             return View(users);
@@ -26,7 +26,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var user = await _service.AuthService.GetRoleForUpdateAsync(id);
+            var user = await _service.AuthService.GetUserForUpdateAsync(id);
             return View(user);
         }
 
@@ -38,7 +38,7 @@ namespace EMS.Presentation.Controllers
                 var result = await _service.AuthService.UpdateUserAsync(model);
 
                 if (result.Succeeded)
-                    return RedirectToAction(nameof(Users));
+                    return RedirectToAction(nameof(Index));
 
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -56,7 +56,7 @@ namespace EMS.Presentation.Controllers
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);
             }
-            return View(nameof(Users));
+            return View(nameof(Index));
         }
 
         [HttpGet]

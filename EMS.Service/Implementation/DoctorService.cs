@@ -37,8 +37,9 @@ namespace EMS.Services.Implementation
 
         public async Task<DoctorViewModel> GetDoctorAsync(Guid id, bool trackChanges, string[]? includes = null)
         {
-            var doctorFromDb = await _shardService.GetDoctorCheckIfItExists(id, trackChanges);
-            var doctorToReturn = new DoctorViewModel(doctorFromDb.Id, $"{doctorFromDb.FirstName} {doctorFromDb.LastName}", doctorFromDb.NationalID);
+            var doctorFromDb = await _shardService.GetDoctorCheckIfItExists(id, trackChanges, includes);
+            var courses = _shardService.GetCourseIfItExist(doctorFromDb);
+            var doctorToReturn = new DoctorViewModel(doctorFromDb.Id, $"{doctorFromDb.FirstName} {doctorFromDb.LastName}", doctorFromDb.NationalID, courses);
             return doctorToReturn;
         }
 

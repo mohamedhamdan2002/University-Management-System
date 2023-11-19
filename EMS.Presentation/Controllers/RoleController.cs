@@ -16,7 +16,7 @@ namespace EMS.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Roles() 
+        public async Task<IActionResult> Index() 
         {
             var roles = await _service.AuthService.GetRolesAsync();
             return View(roles);
@@ -35,7 +35,7 @@ namespace EMS.Presentation.Controllers
             {
                 var result = await _service.AuthService.CreateRoleAsync(model);
                 if (result.Succeeded)                
-                    return RedirectToAction(nameof(Roles));
+                    return RedirectToAction(nameof(Index));
 
                 foreach (var erro in result.Errors)
                     ModelState.AddModelError(string.Empty, erro.Description);
@@ -57,7 +57,7 @@ namespace EMS.Presentation.Controllers
             {
                 var result = await _service.AuthService.UpdateRoleAsync(model);
                 if (result.Succeeded)
-                    return RedirectToAction(nameof(Roles));
+                    return RedirectToAction(nameof(Index));
      
                 foreach (var erro in result.Errors)
                     ModelState.AddModelError(string.Empty, erro.Description);
@@ -74,13 +74,14 @@ namespace EMS.Presentation.Controllers
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);
             }
-            return View(nameof(Roles));
+            return View(nameof(Index));
         }
 
         [HttpGet]
         public async Task<IActionResult> ManageRoleUsers(Guid roleId)
         {
             var model = await _service.AuthService.GetRoleUsersAsync(roleId);
+            ViewBag.roleId = roleId;
             return View(model);
         }
 

@@ -24,7 +24,7 @@ namespace EMS.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid departmentId, Guid id)
         {
-            var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false);
+            var model = await _service.DivisionService.GetDivisionAsync(departmentId, id, trackChanges: false, new[] { "Courses", "Students" });
             ViewBag.departmentId = departmentId;
             return View(model);
         }

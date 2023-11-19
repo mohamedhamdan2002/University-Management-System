@@ -1,10 +1,10 @@
 ﻿using EMS.Services.Contracts;
 using EMS.Service.ViewModels.Course;
 using Microsoft.AspNetCore.Mvc;
+using EMS.DataAccess.Entities.Enums;
 
 namespace EMS.Presentation.Controllers
 {
-    [Route("Faculties/{divisionId:guid}/Courses")]
     public class CourseController : Controller
     {
         private readonly IServiceManager _service;
@@ -12,31 +12,31 @@ namespace EMS.Presentation.Controllers
         {
             _service = service;
         }
-        // GET: CoursesController
+
         [HttpGet]
         public async Task<IActionResult> Index(Guid divisionId)
         {
             var models = await _service.CourseService.GetCoursesAsync(divisionId, trackChanges: false);
+            ViewBag.divisionId = divisionId;
             return View(models);
         }
 
-        // GET: CoursesController/Details/5
-        [HttpGet("Details/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Details(Guid divisionId, Guid id)
         {
-            var model = await _service.CourseService.GetCourseAsync(divisionId, id, trackChanges: false);
+            var model = await _service.CourseService.GetCourseAsync(divisionId, id, trackChanges: false, new[] { "Enrollments.Student" });
+            ViewBag.divisionId = divisionId;
             return View(model);
         }
 
-        // GET: CoursesController/Create
-        [HttpGet("[action]")]
+        [HttpGet]
         public ActionResult Create(Guid divisionId)
         {
+            ViewBag.divisionId = divisionId;
             return View();
         }
 
-        // POST: CoursesController/Create
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<ActionResult> Create(Guid divisionId, CourseForCreationViewModel courseForCreation)
         {
             if (ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace EMS.Presentation.Controllers
                 {
 
                     await _service.CourseService.CreateCourseForDivisionAsync(divisionId, courseForCreation, trackChanges: false);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { divisionId });
                 }
                 catch
                 {
@@ -55,20 +55,23 @@ namespace EMS.Presentation.Controllers
             return View();
         }
 
-        // GET: CoursesController/Edit/5
-        [HttpGet("Edit/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid divisionId, Guid id)
         {
             var model = await _service.CourseService.GetCourseAsync(divisionId, id, trackChanges: false);
+            ViewBag.divisionId = divisionId;
             var modelToUpdate = new CourseForUpdateViewModel
             {
                 Name = model.Name,
+                Code = model.Code,
+                Credits = model.Credits,
+                Semester = model.Semester,
+                Description = model.Description,
             };
             return View(modelToUpdate);
         }
 
-        // POST: CoursesController/Edit/5
-        [HttpPost("[action]/{id}")]
+        [HttpPost]
         public async Task<ActionResult> Edit(Guid divisionId, Guid id, CourseForUpdateViewModel courseForUpdate)
         {
             try
@@ -76,7 +79,7 @@ namespace EMS.Presentation.Controllers
                 if (ModelState.IsValid)
                 {
                     await _service.CourseService.UpdateCourseForDivisionAsync(divisionId, id, courseForUpdate, divisionTrackChanges: false, courseTrackChanges: true);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { divisionId });
                 }
                 return View();
             }
@@ -87,22 +90,21 @@ namespace EMS.Presentation.Controllers
             }
         }
 
-        // GET: CoursesController/Delete/5
-        [HttpGet("Delete/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid divisionId, Guid id)
         {
             var model = await _service.CourseService.GetCourseAsync(divisionId, id, trackChanges: false);
+            ViewBag.divisionId = divisionId;
             return View(model);
         }
 
-        // POST: CoursesController/Delete/5
-        [HttpPost("[action]/{id}")]
+        [HttpPost]
         public async Task<IActionResult> Delete(Guid divisionId, Guid id, CourseViewModel model)
         {
             try
             {
                 await _service.CourseService.DeleteCourseForDivisionAsync(divisionId, id, trackChanges: false);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { divisionId });
             }
             catch
             {

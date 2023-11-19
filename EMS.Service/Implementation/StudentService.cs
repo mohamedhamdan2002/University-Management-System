@@ -33,7 +33,6 @@ namespace EMS.Services.Implementation
             return studentToReturn;
         }
 
-
         public async Task DeleteStudentForGroupAsync(Guid groupId, Guid id, bool trackChanges)
         {
             await _shardService.CheckIfGroupExists(groupId, trackChanges);
@@ -41,8 +40,6 @@ namespace EMS.Services.Implementation
             _repository.Student.DeleteStudent(studentFromDb);
             await _repository.SaveAsync();
         }
-
-
 
         public async Task<StudentViewModel> GetStudentAsync(Guid groupId, Guid id, bool trackChanges, string[]? includes = null)
         {

@@ -1,0 +1,70 @@
+﻿@model UserForUpdateViewModel
+@{
+    ViewData["Title"] = "Edit User page";
+}
+
+<h1>Edit User</h1>
+<form method="post">
+    <div>
+        <input asp-for="UserId" type="hidden"/>
+    </div>
+    <hr />
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <hr />
+    <div>
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <hr />
+    <div asp-validation-summary="All"></div>
+    <div>
+        <button type="submit">Update</button>
+        <a asp-controller="User" asp-action="Index">Cancel</a>
+    </div>
+    <hr />
+    <div>
+        <h2>UserRoles</h2>
+        @if (Model.Roles is not null && Model.Roles.Any())
+        {
+            <ul>
+                @foreach (var role in Model.Roles)
+                {
+                    <li>
+                        <h6>@role</h6>
+                    </li>
+                }
+            </ul>
+
+        }
+        else
+        {
+            <h6>None At the moment</h6>
+        }
+        <a asp-controller="User" asp-action="ManageUserRoles" asp-route-id="@Model.UserId">Manage Roles</a>
+    </div>
+    <hr />
+    <div>
+        <h2>User Claims</h2>
+        @if (Model.Claims is not null && Model.Claims.Any())
+        {
+            <ul>
+                @foreach (var claim in Model.Claims)
+                {
+                    <li>
+                        <h6>@claim</h6>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <h6>None At the moment</h6>
+        }
+        <a asp-action="ManageUserClaims" asp-route-userId="@Model.UserId">Manage Claims</a>
+    </div>
+</form>
