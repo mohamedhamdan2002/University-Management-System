@@ -1,0 +1,44 @@
+﻿@model IEnumerable<UMS.Service.ViewModels.Course.CourseViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    var divisionId = ViewBag.divisionId;
+
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-controller="Course" asp-action="Create" asp-route-divisionId="@divisionId">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Semester</th>
+            <th>Credits</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Code</td>
+                <td>@item.Description</td>
+                <td>@item.Semester</td>
+                <td>@item.Credits</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Course" asp-action="Edit" asp-route-id="@item.Id" asp-route-divisionId="@divisionId">Edit</a>
+                    <a class="btn btn-info" asp-controller="Course" asp-action="Details" asp-route-id="@item.Id" asp-route-divisionId="@divisionId">Details</a>
+                    <a class="btn btn-danger" asp-controller="Course" asp-action="Delete" asp-route-id="@item.Id" asp-route-divisionId="@divisionId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

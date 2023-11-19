@@ -1,0 +1,91 @@
+﻿@model UMS.Service.ViewModels.Course.CourseViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    var divisionId = ViewBag.divisionId;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>CourseViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">Name</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+
+        <dt class="col-sm-2">Code</dt>
+        <dd class="col-sm-10">@Model.Code</dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+
+        <dt class="col-sm-2">Semester</dt>
+        <dd class="col-sm-10">@Model.Semester</dd>
+
+        <dt class="col-sm-2">Credits</dt>
+        <dd class="col-sm-10">@Model.Credits</dd>
+    </dl>
+</div>
+
+<div>
+    <a class="btn btn-primary" asp-controller="Course" asp-action="Edit" asp-route-id="@Model.Id" asp-route-divisionId="@divisionId">Edit</a>
+    <a class="btn btn-secondary" asp-controller="Course" asp-action="Index" asp-route-divisionId="@divisionId">Back to List</a>
+</div>
+
+<div class="container">
+    @if(Model.Students is not null && Model.Students.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        FullName
+                    </th>
+                    <th>
+                        NationalID
+                    </th>
+                    <th>
+                        Level
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Students)
+                {
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.NationalID
+                        </td>
+                        <td>
+                            @item.Level
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <br />
+        <div>No have Any Students at this moment</div>
+    }
+</div>

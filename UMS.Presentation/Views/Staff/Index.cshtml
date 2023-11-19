@@ -1,0 +1,36 @@
+﻿@model IEnumerable<UMS.Service.ViewModels.Staff.StaffViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>National ID</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                <td>@item.NationalID</td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-warning">Edit</a> |
+                    <a asp-action="Details" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
