@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Semester" class="control-label"></label>
-                <select asp-for="Semester" class="form-control" asp-itUMS="Html.GetEnumSelectList<SemesterType>()">
+                <select asp-for="Semester" class="form-control" asp-items="Html.GetEnumSelectList<SemesterType>()">
                     <option value="" disabled selected hidden>Please Select</option>
                 </select>
                 <span asp-validation-for="Semester" class="text-danger"></span>
